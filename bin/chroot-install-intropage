@@ -1,0 +1,21 @@
+#!/bin/sh
+set -o nounset
+#set -x #DEBUG
+
+cd /root/live
+. config/config-vars
+. bin/chroot-functions.sh
+
+INTROPAGE_SRC_DIR=~root/live/config/intropage.d/intro_page
+INTROPAGE_DEST_DIR=/etc/skel/intro_page
+
+# Test for intro page and install if needed
+[ -d $INTROPAGE_DEST_DIR ] || {
+    $PRINTINFO Installing intro page...
+    cp -r $INTROPAGE_SRC_DIR $INTROPAGE_DEST_DIR || {
+        $PRINTERROR Unable to install pybombs configuration file.
+        exit 1
+    }
+}
+
+exit 0

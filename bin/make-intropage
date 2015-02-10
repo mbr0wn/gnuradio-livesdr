@@ -1,0 +1,11 @@
+#!/bin/sh
+
+. config/config-vars
+. bin/functions.sh
+
+INTROPAGEDIR=$BASEDIR/config/intropage.d
+INTROPAGEOUTPUTDIR=$INTROPAGEDIR/intro_page # This must have all .css, images etc. inside
+
+$PRINTINFO Building intro.html page
+$PANDOC -f markdown -t html -o $INTROPAGEOUTPUTDIR/index.html \
+	--template=$INTROPAGEDIR/template.html $INTROPAGEDIR/*.md

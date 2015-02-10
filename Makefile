@@ -55,6 +55,13 @@ stamps/install-custom.stamp:
 
 custom: mount stamps/install-custom.stamp
 
+# Generate intro.html page
+gen-intro-html:
+	@bin/make-intropage
+
+intro-html: gen-intro-html
+	@bin/run-in-chroot /root/live/bin/chroot-install-intropage
+
 # Remove, update, and install custom packages
 stamps/packages.stamp:
 	@bin/run-in-chroot /root/live/bin/chroot-uninstall-pkgs
@@ -84,7 +91,7 @@ ${ISO_INITRD}: ${CHROOT_INITRD}
 initrd: mount ${ISO_INITRD}
 
 # Target for entire custom content generation
-content: custom packages install-pybombs-apps initrd
+content: custom packages install-pybombs-apps intro-html initrd
 
 ###############
 # Remastering #

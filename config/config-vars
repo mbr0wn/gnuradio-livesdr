@@ -20,6 +20,7 @@ MKSQUASHFS=/usr/bin/mksquashfs
 CCACHE=/usr/bin/ccache
 ISOHYBRID=/usr/bin/isohybrid
 BUILDTORRENT=/usr/bin/buildtorrent
+PANDOC=/usr/bin/pandoc
 
 # Directory configuration
 # Modify as needed
