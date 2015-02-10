@@ -1,0 +1,28 @@
+#!/bin/sh
+# Basically a shorthand for calling 'install' in the chroot
+set -o nounset
+#set -x #DEBUG
+
+# Test for required arguments
+if [ $# -lt 3 ] ; then
+    $PRINTERROR "Usage: $0 <FILE> <LOCATION> <USER> <MODE>"
+    exit 1
+else
+    SRCFILE=$1
+    DEST=$2
+    USER=$3
+fi
+if [ $# -eq 4 ]; then
+    MODE=$4
+else
+    MODE="755"
+fi
+
+cd /root/live
+. config/config-vars
+. bin/chroot-functions.sh
+
+# Call install
+install -o $USER -g $USER -m $MODE $SRCFILE -d $DEST
+
+exit 0
