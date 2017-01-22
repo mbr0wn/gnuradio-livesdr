@@ -26,7 +26,23 @@ pybombs recipes add livesdr config/pybombs.d/recipes \
 # Do parallel compiles
 pybombs config makewidth $MAKEWIDTH || die Unable to configure makewidth
 
-# TODO: Move chroot config.yml into /etc/skel for live user
+## Create a PyBOMBS prefix that goes into skel.
+rm -rf /etc/skel/pybombs
+pybombs prefix init /etc/skel/pybombs || die Failed to create skel prefix
+rm -f /etc/skel/pybombs/.pybombs/config.yml
+refresh_or_install_file \
+    /etc/skel/pybombs/.pybombs/config.yml \
+    "Installing PyBOMBS prefix configuration..."
+# Unfortunately, the setup_env.sh file requires absolute paths.
+sed -i 's/\/etc\/skel/\$HOME/g' /etc/skel/pybombs/setup_env.sh \
+	|| die Failed to reconfigure skel prefix
+# Also setup PyBOMBS config
+refresh_or_install_file \
+    /etc/skel/.pybombs/config.yml \
+    "Installing PyBOMBS user configuration..."
+mkdir /etc/skel/.pybombs/recipes/
+# Let's share our recipes with the user
+cp -r ~/.pybombs/recipes/* /etc/skel/.pybombs/recipes/
 
 # Exit cleanly
 updated_rootfs

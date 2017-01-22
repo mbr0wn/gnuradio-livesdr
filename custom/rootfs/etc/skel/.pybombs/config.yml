@@ -1,0 +1,6 @@
+config:
+  default_prefix: default
+prefix_aliases:
+  default: ~/pybombs
+recipes:
+  gr-recipes: git+https://github.com/gnuradio/gr-recipes.git
